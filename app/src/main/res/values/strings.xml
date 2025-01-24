@@ -6,8 +6,8 @@
     <string name="error_network">Network error. Please try again later.</string>
     <string name="error_connection">Connection error. Please internet connection.</string>
     <string name="error_general">Oops! Something went wrong. Please try again later.</string>
-    <string name="prompt_speech_recognizer">Say REFRESH to reload the news!</string>
-    <string name="refresh_phrase">refresh</string>
+    <string name="prompt_speech_recognizer">Say RELOAD to refresh the news!</string>
+    <string name="refresh_command">Reload</string>
     <string name="hint_search">Search…</string>
     <string name="text_default_search_query">Android</string>
     <string name="title_sort_relevance">Relevance</string>

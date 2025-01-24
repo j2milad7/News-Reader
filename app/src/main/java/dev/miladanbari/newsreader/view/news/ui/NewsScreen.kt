@@ -63,7 +63,7 @@ internal fun NewsScreen(
     var shouldLaunchSpeechRecognizer by remember { mutableStateOf(false) }
     if (shouldLaunchSpeechRecognizer) {
         // TODO: The refresh phrase could be localized to support voice command in different languages.
-        val reloadPhrase = stringResource(id = R.string.refresh_phrase)
+        val reloadPhrase = stringResource(id = R.string.refresh_command)
         LaunchSpeechRecognizer {
             if (it.equals(reloadPhrase, ignoreCase = true)) {
                 refreshList()
