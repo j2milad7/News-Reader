@@ -30,3 +30,5 @@ data class SourceItem(
     val id: String?,
     val name: String,
 ) : Parcelable
+
+data class FilterAndSort(val searchQuery: String?)

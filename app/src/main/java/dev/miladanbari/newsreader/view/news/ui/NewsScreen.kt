@@ -43,7 +43,8 @@ internal fun NewsScreen(
     lazyListState: LazyListState,
     snackbarHostState: SnackbarHostState,
     showSnackbar: (String) -> Unit,
-    onArticleClick: (ArticleItem) -> Unit
+    onArticleClick: (ArticleItem) -> Unit,
+    onSearchQueryChange: (String) -> Unit
 ) {
 
     val scope = rememberCoroutineScope()
@@ -100,6 +101,7 @@ internal fun NewsScreen(
                 lazyListState,
                 showSnackbar,
                 onArticleClick,
+                onSearchQueryChange,
                 modifier = Modifier.padding(it)
             )
         }
@@ -138,7 +140,8 @@ fun PreviewNewsScreen() {
             lazyListState = LazyListState(),
             snackbarHostState = SnackbarHostState(),
             showSnackbar = { },
-            onArticleClick = { }
+            onArticleClick = { },
+            onSearchQueryChange = {}
         )
     }
 }

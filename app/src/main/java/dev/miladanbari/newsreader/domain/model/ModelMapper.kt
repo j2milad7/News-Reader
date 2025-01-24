@@ -11,11 +11,11 @@ fun ArticleDto.toArticleModel(): ArticleModel {
     return ArticleModel(
         source.toSourceModel(),
         author,
-        title,
-        description,
-        url,
+        title.orEmpty(),
+        description.orEmpty(),
+        url.orEmpty(),
         urlToImage,
-        publishedAt,
-        content
+        publishedAt.orEmpty(),
+        content.orEmpty()
     )
 }

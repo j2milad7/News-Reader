@@ -26,6 +26,7 @@ internal fun NewScreenRoute(
         lazyListState = lazyListState,
         snackbarHostState = snackbarHostState,
         showSnackbar = { scope.launch { snackbarHostState.showSnackbar(it) } },
-        onArticleClick = navigateToArticleDetails
+        onArticleClick = navigateToArticleDetails,
+        onSearchQueryChange = viewModel::onSearchQueryChange
     )
 }

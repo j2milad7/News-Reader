@@ -8,9 +8,14 @@ import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.miladanbari.newsreader.domain.usecase.GetNewsUseCase
 import dev.miladanbari.newsreader.view.news.model.ArticleItem
+import dev.miladanbari.newsreader.view.news.model.FilterAndSort
 import dev.miladanbari.newsreader.view.news.model.toArticleItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -20,22 +25,36 @@ class NewsViewModel @Inject constructor(
     getNewsUseCase: GetNewsUseCase
 ) : ViewModel() {
 
-    val newsPagerFlow: Flow<PagingData<ArticleItem>> = getNewsUseCase(
-        query = QUERY,
-        pageSize = PAGE_SIZE,
-        prefetchDistance = PREFETCH_DISTANCE
+    private val _filterAndSortStateFlow = MutableStateFlow(
+        value = FilterAndSort(searchQuery = DEFAULT_SEARCH_QUERY)
     )
+
+    val newsPagerFlow: Flow<PagingData<ArticleItem>> = _filterAndSortStateFlow
+        .debounce(DEBOUNCE_MILLIS) // Wait for 500ms after the last emission
+        .filter { !it.searchQuery.isNullOrEmpty() }
+        .flatMapLatest {
+            getNewsUseCase(
+                query = requireNotNull(it.searchQuery),
+                pageSize = PAGE_SIZE,
+                prefetchDistance = PREFETCH_DISTANCE
+            )
+        }
         // Map the domain model to the UI model.
         .map { it.map { it.toArticleItem() } }
         .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
 
+    fun onSearchQueryChange(searchQuery: String) {
+        with(_filterAndSortStateFlow) {
+            value = value.copy(searchQuery = searchQuery)
+        }
+    }
+
     private companion object {
 
-        // TODO: This is a search query for finding the related news. It can be replaced by any other
-        //  query from UI which is entered by the user.
-        const val QUERY = "android"
+        const val DEFAULT_SEARCH_QUERY = "Android"
         const val PAGE_SIZE = 30
         const val PREFETCH_DISTANCE = 2
+        const val DEBOUNCE_MILLIS = 500L
     }
 }
