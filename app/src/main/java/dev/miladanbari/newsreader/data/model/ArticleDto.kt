@@ -6,7 +6,7 @@ data class ArticleDto(
     @SerializedName("source")
     val source: SourceDto,
     @SerializedName("author")
-    val author: String,
+    val author: String?,
     @SerializedName("title")
     val title: String,
     @SerializedName("description")
@@ -14,7 +14,7 @@ data class ArticleDto(
     @SerializedName("url")
     val url: String,
     @SerializedName("urlToImage")
-    val urlToImage: String,
+    val urlToImage: String?,
     @SerializedName("publishedAt")
     val publishedAt: String,
     @SerializedName("content")
