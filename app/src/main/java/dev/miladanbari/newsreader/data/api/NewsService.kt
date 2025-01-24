@@ -1,7 +1,7 @@
 package dev.miladanbari.newsreader.data.api
 
-import dev.miladanbari.newsreader.data.model.Article
-import dev.miladanbari.newsreader.data.model.Response
+import dev.miladanbari.newsreader.data.model.ArticleDto
+import dev.miladanbari.newsreader.data.model.ResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -12,5 +12,5 @@ interface NewsService {
         @Query("q") query: String,
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int
-    ): Response.Success<List<Article>>
+    ): ResponseDto.Success<List<ArticleDto>>
 }

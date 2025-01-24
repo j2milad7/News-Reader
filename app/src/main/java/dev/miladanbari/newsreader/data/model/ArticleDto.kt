@@ -2,9 +2,9 @@ package dev.miladanbari.newsreader.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Article(
+data class ArticleDto(
     @SerializedName("source")
-    val source: Source,
+    val source: SourceDto,
     @SerializedName("author")
     val author: String,
     @SerializedName("title")
@@ -21,7 +21,7 @@ data class Article(
     val content: String
 )
 
-data class Source(
+data class SourceDto(
     @SerializedName("id")
     val id: String?,
     @SerializedName("name")

@@ -2,30 +2,30 @@ package dev.miladanbari.newsreader.data.model
 
 import com.google.gson.annotations.SerializedName
 
-sealed class Response<out T> {
+sealed class ResponseDto<out T> {
 
-    abstract val status: Status
+    abstract val status: StatusDto
 
     data class Success<out T>(
         @SerializedName("status")
-        override val status: Status,
+        override val status: StatusDto,
         @SerializedName("totalResults")
         val totalResults: Int,
         @SerializedName("articles")
         val data: T
-    ) : Response<T>()
+    ) : ResponseDto<T>()
 
     data class Error(
         @SerializedName("status")
-        override val status: Status,
+        override val status: StatusDto,
         @SerializedName("code")
-        val code: ErrorCode,
+        val code: ErrorCodeDto,
         @SerializedName("message")
         val message: String
-    ) : Response<Nothing>()
+    ) : ResponseDto<Nothing>()
 }
 
-enum class Status {
+enum class StatusDto {
     @SerializedName("ok")
     OK,
 
@@ -35,7 +35,7 @@ enum class Status {
 
 // TODO: More error codes can be added. Check this link for more information:
 //  https://newsapi.org/docs/errors
-enum class ErrorCode {
+enum class ErrorCodeDto {
 
     @SerializedName("maximumResultsReached")
     MAXIMUM_RESULTS_REACHED,

@@ -1,10 +1,10 @@
 package dev.miladanbari.newsreader.data.util
 
 import com.google.gson.GsonBuilder
-import dev.miladanbari.newsreader.data.model.ErrorCode
+import dev.miladanbari.newsreader.data.model.ErrorCodeDto
 import dev.miladanbari.newsreader.data.model.NetworkException
-import dev.miladanbari.newsreader.data.model.Response
-import dev.miladanbari.newsreader.data.model.Status
+import dev.miladanbari.newsreader.data.model.ResponseDto
+import dev.miladanbari.newsreader.data.model.StatusDto
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.UnknownHostException
@@ -36,12 +36,12 @@ private fun Throwable.toHttpException(): NetworkException {
     }
 }
 
-private fun HttpException.getServerError(): Response.Error {
+private fun HttpException.getServerError(): ResponseDto.Error {
     val errorBody = response()?.errorBody()?.string()
     return try {
-        GsonBuilder().create().fromJson(errorBody, Response.Error::class.java)
+        GsonBuilder().create().fromJson(errorBody, ResponseDto.Error::class.java)
     } catch (ignored: Exception) {
-        Response.Error(Status.ERROR, ErrorCode.UNEXPECTED_ERROR, message.orEmpty())
+        ResponseDto.Error(StatusDto.ERROR, ErrorCodeDto.UNEXPECTED_ERROR, message.orEmpty())
     }
 }
 
