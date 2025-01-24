@@ -22,7 +22,8 @@ class NewsRepositoryImpl @Inject constructor(
         return Pager(
             PagingConfig(
                 pageSize = pageSize,
-                prefetchDistance = prefetchDistance
+                prefetchDistance = prefetchDistance,
+                initialLoadSize = pageSize
             )
         ) { NewsPagingSource(newsService, query) }.flow
     }
