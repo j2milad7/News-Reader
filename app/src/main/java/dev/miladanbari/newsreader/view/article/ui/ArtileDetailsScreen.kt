@@ -86,7 +86,8 @@ fun PreViewArticleDetailsScreen() {
                         url = "test url",
                         urlToImage = "test url to image",
                         formattedPublishedDateTime = "test published at",
-                        content = "test content"
+                        content = "test content",
+                        id = 0
                     )
                 )
             ),

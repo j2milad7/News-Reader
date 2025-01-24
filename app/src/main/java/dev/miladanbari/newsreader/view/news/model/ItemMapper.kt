@@ -12,7 +12,7 @@ fun SourceModel.toSourceItem(): SourceItem {
     return SourceItem(id, name)
 }
 
-fun ArticleModel.toArticleItem(): ArticleItem {
+fun ArticleModel.toArticleItem(id: Long? = null): ArticleItem {
     val formattedPublishedDateTime = try {
         val date = requireNotNull(inputFormat.parse(publishedAt))
         outputFormat.format(date)
@@ -28,6 +28,7 @@ fun ArticleModel.toArticleItem(): ArticleItem {
         url,
         urlToImage,
         formattedPublishedDateTime,
-        content
+        content,
+        id = id ?: System.nanoTime()
     )
 }

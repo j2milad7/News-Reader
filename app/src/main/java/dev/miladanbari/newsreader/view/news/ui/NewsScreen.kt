@@ -142,7 +142,8 @@ fun PreviewNewsScreen() {
                             url = "test url",
                             urlToImage = "test url to image",
                             formattedPublishedDateTime = "test published at",
-                            content = "test content"
+                            content = "test content",
+                            id = 0
                         )
                     ),
                     sourceLoadStates = LoadStates(

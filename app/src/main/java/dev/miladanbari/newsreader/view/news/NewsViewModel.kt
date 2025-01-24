@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -36,7 +35,6 @@ class NewsViewModel @Inject constructor(
     val newsPagerFlow: Flow<PagingData<ArticleItem>> = filterAndSortStateFlow
         .debounce(DEBOUNCE_MILLIS) // Wait for 500ms after the last emission
         .filter { it.searchQuery.isNotEmpty() }
-        .distinctUntilChanged()
         .flatMapLatest {
             getNewsUseCase(
                 query = it.searchQuery,

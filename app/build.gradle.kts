@@ -90,7 +90,7 @@ dependencies {
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.coroutines.test)
     testImplementation(libs.androidx.paging.testing)
-    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.shazamcrest)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
