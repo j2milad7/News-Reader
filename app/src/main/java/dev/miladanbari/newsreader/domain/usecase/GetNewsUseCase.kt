@@ -7,8 +7,8 @@ import dev.miladanbari.newsreader.domain.model.toArticleModel
 import dev.miladanbari.newsreader.domain.repository.NewsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -21,17 +21,16 @@ class GetNewsUseCase @Inject constructor(
     /**
      * An operator function to get processed data from the use case.
      */
-    suspend operator fun invoke(
+    operator fun invoke(
         query: String,
         pageSize: Int,
         prefetchDistance: Int
     ): Flow<PagingData<ArticleModel>> {
 
         // Do some business logics
-        return withContext(Dispatchers.IO) {
-            newsRepository.getNewsFlow(query, pageSize, prefetchDistance).map {
-                it.map { it.toArticleModel() }
-            }
-        }
+        return newsRepository.getNewsFlow(query, pageSize, prefetchDistance)
+            // Map the DTO to the domain model.
+            .map { it.map { it.toArticleModel() } }
+            .flowOn(Dispatchers.IO)
     }
 }
