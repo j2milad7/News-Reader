@@ -11,7 +11,8 @@ import dev.miladanbari.newsreader.data.util.toNetworkException
 
 class NewsPagingSource(
     private val newsService: NewsService,
-    private val query: String
+    private val query: String,
+    private val sortBy: String?
 ) : PagingSource<Int, ArticleDto>() {
 
     override fun getRefreshKey(state: PagingState<Int, ArticleDto>): Int? {
@@ -26,6 +27,7 @@ class NewsPagingSource(
         return try {
             val response: ResponseDto.Success<List<ArticleDto>> = newsService.getNews(
                 query,
+                sortBy,
                 page,
                 pageSize = params.loadSize
             )

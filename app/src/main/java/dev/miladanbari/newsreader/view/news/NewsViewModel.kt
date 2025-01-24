@@ -9,11 +9,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.miladanbari.newsreader.domain.usecase.GetNewsUseCase
 import dev.miladanbari.newsreader.view.news.model.ArticleItem
 import dev.miladanbari.newsreader.view.news.model.FilterAndSort
+import dev.miladanbari.newsreader.view.news.model.NewsSort
 import dev.miladanbari.newsreader.view.news.model.toArticleItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -26,15 +29,18 @@ class NewsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _filterAndSortStateFlow = MutableStateFlow(
-        value = FilterAndSort(searchQuery = DEFAULT_SEARCH_QUERY)
+        value = FilterAndSort(searchQuery = DEFAULT_SEARCH_QUERY, sort = NewsSort.NEWEST)
     )
+    val filterAndSortStateFlow = _filterAndSortStateFlow.asStateFlow()
 
-    val newsPagerFlow: Flow<PagingData<ArticleItem>> = _filterAndSortStateFlow
+    val newsPagerFlow: Flow<PagingData<ArticleItem>> = filterAndSortStateFlow
         .debounce(DEBOUNCE_MILLIS) // Wait for 500ms after the last emission
-        .filter { !it.searchQuery.isNullOrEmpty() }
+        .filter { it.searchQuery.isNotEmpty() }
+        .distinctUntilChanged()
         .flatMapLatest {
             getNewsUseCase(
-                query = requireNotNull(it.searchQuery),
+                query = it.searchQuery,
+                sortBy = it.sort.value,
                 pageSize = PAGE_SIZE,
                 prefetchDistance = PREFETCH_DISTANCE
             )
@@ -47,6 +53,12 @@ class NewsViewModel @Inject constructor(
     fun onSearchQueryChange(searchQuery: String) {
         with(_filterAndSortStateFlow) {
             value = value.copy(searchQuery = searchQuery)
+        }
+    }
+
+    fun onSortChange(sort: NewsSort) {
+        with(_filterAndSortStateFlow) {
+            value = value.copy(sort = sort)
         }
     }
 

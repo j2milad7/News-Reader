@@ -10,6 +10,7 @@ interface NewsService {
     @GET("v2/everything")
     suspend fun getNews(
         @Query("q") query: String,
+        @Query("sortBy") sortBy: String?,
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int
     ): ResponseDto.Success<List<ArticleDto>>

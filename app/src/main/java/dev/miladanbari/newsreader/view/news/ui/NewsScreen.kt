@@ -1,5 +1,6 @@
 package dev.miladanbari.newsreader.view.news.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +31,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.miladanbari.newsreader.R
 import dev.miladanbari.newsreader.view.news.model.ArticleItem
+import dev.miladanbari.newsreader.view.news.model.FilterAndSort
+import dev.miladanbari.newsreader.view.news.model.NewsSort
 import dev.miladanbari.newsreader.view.news.model.SourceItem
 import dev.miladanbari.newsreader.view.speech.ui.LaunchSpeechRecognizer
 import dev.miladanbari.newsreader.view.theme.NewsReaderTheme
@@ -39,12 +43,14 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NewsScreen(
+    filterAndSortStat: State<FilterAndSort>,
     lazyPagingItems: LazyPagingItems<ArticleItem>,
     lazyListState: LazyListState,
     snackbarHostState: SnackbarHostState,
     showSnackbar: (String) -> Unit,
     onArticleClick: (ArticleItem) -> Unit,
-    onSearchQueryChange: (String) -> Unit
+    onSearchQueryChange: (String) -> Unit,
+    onSortChange: (NewsSort) -> Unit
 ) {
 
     val scope = rememberCoroutineScope()
@@ -97,22 +103,31 @@ internal fun NewsScreen(
         floatingActionButtonPosition = FabPosition.End,
         content = {
             NewsScreenContent(
+                filterAndSortStat,
                 lazyPagingItems,
                 lazyListState,
                 showSnackbar,
                 onArticleClick,
                 onSearchQueryChange,
+                onSortChange,
                 modifier = Modifier.padding(it)
             )
         }
     )
 }
 
+@SuppressLint("UnrememberedMutableState")
 @ThemePreview
 @Composable
 fun PreviewNewsScreen() {
     NewsReaderTheme {
         NewsScreen(
+            filterAndSortStat = mutableStateOf(
+                FilterAndSort(
+                    searchQuery = "Test",
+                    NewsSort.NEWEST
+                )
+            ),
             lazyPagingItems = flowOf(
                 PagingData.from(
                     listOf(
@@ -141,7 +156,8 @@ fun PreviewNewsScreen() {
             snackbarHostState = SnackbarHostState(),
             showSnackbar = { },
             onArticleClick = { },
-            onSearchQueryChange = {}
+            onSearchQueryChange = {},
+            onSortChange = {}
         )
     }
 }

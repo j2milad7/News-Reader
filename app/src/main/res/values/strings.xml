@@ -9,4 +9,7 @@
     <string name="refresh_phrase">refresh</string>
     <string name="hint_search">Search…</string>
     <string name="text_default_search_query">Android</string>
+    <string name="title_sort_relevance">Relevance</string>
+    <string name="title_sort_popular">Popularity</string>
+    <string name="title_sort_newest">Newest</string>
 </resources>

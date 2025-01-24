@@ -16,6 +16,7 @@ class NewsRepositoryImpl @Inject constructor(
 
     override fun getNewsFlow(
         query: String,
+        sortBy: String?,
         pageSize: Int,
         prefetchDistance: Int
     ): Flow<PagingData<ArticleDto>> {
@@ -25,6 +26,6 @@ class NewsRepositoryImpl @Inject constructor(
                 prefetchDistance = prefetchDistance,
                 initialLoadSize = pageSize
             )
-        ) { NewsPagingSource(newsService, query) }.flow
+        ) { NewsPagingSource(newsService, query, sortBy) }.flow
     }
 }

@@ -23,12 +23,13 @@ class GetNewsUseCase @Inject constructor(
      */
     operator fun invoke(
         query: String,
+        sortBy: String? = null,
         pageSize: Int,
         prefetchDistance: Int
     ): Flow<PagingData<ArticleModel>> {
 
         // Do some business logics
-        return newsRepository.getNewsFlow(query, pageSize, prefetchDistance)
+        return newsRepository.getNewsFlow(query, sortBy, pageSize, prefetchDistance)
             // Map the DTO to the domain model.
             .map { it.map { it.toArticleModel() } }
             .flowOn(Dispatchers.IO)

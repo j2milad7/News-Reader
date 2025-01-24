@@ -8,6 +8,7 @@ interface NewsRepository {
 
     fun getNewsFlow(
         query: String,
+        sortBy: String? = null,
         pageSize: Int,
         prefetchDistance: Int
     ): Flow<PagingData<ArticleDto>>
