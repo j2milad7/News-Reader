@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">News Reader</string>
+    <string name="title_news">News Feed</string>
+    <string name="title_article_details">Article Details</string>
+    <string name="label_retry">Retry</string>
+    <string name="error_network">Network error. Please try again later.</string>
+    <string name="error_connection">Connection error. Please internet connection.</string>
+    <string name="error_general">Oops! Something went wrong. Please try again later.</string>
+    <string name="prompt_speech_recognizer">Say RELOAD to refresh the news!</string>
+    <string name="refresh_command">Reload</string>
+    <string name="hint_search">Search…</string>
+    <string name="text_default_search_query">Android</string>
+    <string name="title_sort_relevance">Relevance</string>
+    <string name="title_sort_popular">Popularity</string>
+    <string name="title_sort_newest">Newest</string>
+</resources>
