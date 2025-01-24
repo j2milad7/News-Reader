@@ -30,10 +30,11 @@ class NewsPagingSourceTest {
     private val newsService: NewsService = mock()
     private lateinit var pagingSource: NewsPagingSource
     private val query = "test query"
+    private val sortBy = "test"
 
     @Before
     fun setUp() {
-        pagingSource = NewsPagingSource(newsService, query)
+        pagingSource = NewsPagingSource(newsService, query, sortBy)
     }
 
     @Test
@@ -47,7 +48,7 @@ class NewsPagingSourceTest {
             placeholdersEnabled = false
         )
         whenever(
-            newsService.getNews(query, page = key, pageSize = loadSize)
+            newsService.getNews(query, sortBy, page = key, pageSize = loadSize)
         ) doReturn testSuccessResponseDto
 
         // WHEN
@@ -57,7 +58,7 @@ class NewsPagingSourceTest {
         assertThat(actualResult.data, `is`(testSuccessResponseDto.data))
         assertThat(actualResult.prevKey, `is`(nullValue()))
         assertThat(actualResult.nextKey, `is`(key + 1))
-        verify(newsService).getNews(query, page = key, pageSize = loadSize)
+        verify(newsService).getNews(query, sortBy, page = key, pageSize = loadSize)
     }
 
     @Test(expected = Exception::class)
@@ -72,7 +73,7 @@ class NewsPagingSourceTest {
             placeholdersEnabled = false
         )
         whenever(
-            newsService.getNews(query, page = key, pageSize = loadSize)
+            newsService.getNews(query, sortBy, page = key, pageSize = loadSize)
         ) doThrow expectedException
 
         // WHEN
@@ -80,7 +81,7 @@ class NewsPagingSourceTest {
 
         // THEN
         assertThat(actualResult.throwable, `is`(NetworkException.Unexpected))
-        verify(newsService).getNews(query, page = key, pageSize = loadSize)
+        verify(newsService).getNews(query, sortBy, page = key, pageSize = loadSize)
     }
 
     @Test
@@ -103,7 +104,7 @@ class NewsPagingSourceTest {
             whenever(response.errorBody()) doReturn responseBody
             val expectedException = HttpException(response)
             whenever(
-                newsService.getNews(query, page = key, pageSize = loadSize)
+                newsService.getNews(query, sortBy, page = key, pageSize = loadSize)
             ) doThrow expectedException
 
             // WHEN
@@ -113,6 +114,6 @@ class NewsPagingSourceTest {
             assertThat(actualResult.data.isEmpty(), `is`(true))
             assertThat(actualResult.prevKey, `is`(key - 1))
             assertThat(actualResult.nextKey, `is`(nullValue()))
-            verify(newsService).getNews(query, page = key, pageSize = loadSize)
+            verify(newsService).getNews(query, sortBy, page = key, pageSize = loadSize)
         }
 }

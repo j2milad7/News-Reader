@@ -38,19 +38,30 @@ class GetNewsUseCaseTest {
         // GIVEN
         val expectedResult: List<ArticleModel> = testArticleDtoList.map { it.toArticleModel() }
         whenever(
-            newsRepository.getNewsFlow(any(), pageSize = any(), prefetchDistance = any())
+            newsRepository.getNewsFlow(
+                query = any(),
+                sortBy = any(),
+                pageSize = any(),
+                prefetchDistance = any()
+            )
         ) doReturn flowOf(PagingData.from(testArticleDtoList))
 
         // WHEN
         val actualResult = useCase(
             query = "test query",
+            sortBy = "test",
             pageSize = 10,
             prefetchDistance = 0
         ).asSnapshot()
 
         // THEN
         assertThat(actualResult, `is`(expectedResult))
-        verify(newsRepository).getNewsFlow(any(), pageSize = any(), prefetchDistance = any())
+        verify(newsRepository).getNewsFlow(
+            query = any(),
+            sortBy = any(),
+            pageSize = any(),
+            prefetchDistance = any()
+        )
     }
 
     @Test(expected = Exception::class)
@@ -58,14 +69,29 @@ class GetNewsUseCaseTest {
         // GIVEN
         val exception = IOException()
         whenever(
-            newsRepository.getNewsFlow(any(), pageSize = any(), prefetchDistance = any())
+            newsRepository.getNewsFlow(
+                query = any(),
+                sortBy = any(),
+                pageSize = any(),
+                prefetchDistance = any()
+            )
         ) doThrow exception
 
         // WHEN
-        useCase(query = "test query", pageSize = 10, prefetchDistance = 0).asSnapshot()
+        useCase(
+            query = "test query",
+            sortBy = "test",
+            pageSize = 10,
+            prefetchDistance = 0
+        ).asSnapshot()
 
         // THEN
-        verify(newsRepository).getNewsFlow(any(), pageSize = any(), prefetchDistance = any())
+        verify(newsRepository).getNewsFlow(
+            query = any(),
+            sortBy = any(),
+            pageSize = any(),
+            prefetchDistance = any()
+        )
     }
 }
 

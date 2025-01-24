@@ -34,19 +34,25 @@ class NewsRepositoryTest {
         runTest {
             // GIVEN
             whenever(
-                newsService.getNews(any(), page = any(), pageSize = any())
+                newsService.getNews(query = any(), sortBy = any(), page = any(), pageSize = any())
             ) doReturn testSuccessResponseDto
 
             // WHEN
             val actualResult = repository.getNewsFlow(
                 query = "test query",
+                sortBy = "test",
                 pageSize = 10,
                 prefetchDistance = 0
             ).asSnapshot()
 
             // THEN
             assertThat(actualResult, `is`(testSuccessResponseDto.data))
-            verify(newsService).getNews(any(), page = any(), pageSize = any())
+            verify(newsService).getNews(
+                query = any(),
+                sortBy = any(),
+                page = any(),
+                pageSize = any()
+            )
         }
 
     @Test(expected = Exception::class)
@@ -54,17 +60,18 @@ class NewsRepositoryTest {
         // GIVEN
         val expectedException = Exception("Test")
         whenever(
-            newsService.getNews(any(), page = any(), pageSize = any())
+            newsService.getNews(query = any(), sortBy = any(), page = any(), pageSize = any())
         ) doThrow expectedException
 
         // WHEN
         repository.getNewsFlow(
             query = "test query",
+            sortBy = "test",
             pageSize = 10,
             prefetchDistance = 0
         ).asSnapshot()
 
         // THEN
-        verify(newsService).getNews(any(), page = any(), pageSize = any())
+        verify(newsService).getNews(query = any(), sortBy = any(), page = any(), pageSize = any())
     }
 }
