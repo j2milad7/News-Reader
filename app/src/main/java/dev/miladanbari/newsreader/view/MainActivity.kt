@@ -1,4 +1,4 @@
-package dev.miladanbari.newsreader
+package dev.miladanbari.newsreader.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.miladanbari.newsreader.ui.theme.NewsReaderTheme
+import dev.miladanbari.newsreader.view.theme.NewsReaderTheme
 
 class MainActivity : ComponentActivity() {
 
