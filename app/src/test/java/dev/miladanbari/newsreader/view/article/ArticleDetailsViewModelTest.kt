@@ -47,6 +47,6 @@ class ArticleDetailsViewModelTest {
         val actualResult = viewModel.viewStateFlow.value as ViewState.Failure
 
         // THEN
-        assertThat(actualResult.errorMessageResId, `is`(R.string.error_general))
+        assertThat(actualResult.localError.messageResId, `is`(R.string.error_general))
     }
 }
