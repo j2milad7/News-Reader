@@ -1,6 +1,6 @@
 package dev.miladanbari.newsreader.view.base
 
-import androidx.annotation.StringRes
+import dev.miladanbari.newsreader.base.LocalError
 
 /**
  * A sealed interface for handling different states of a view
@@ -11,15 +11,15 @@ sealed interface ViewState<out T> {
 
     class Success<T>(val data: T) : ViewState<T>
 
-    class Failure(@StringRes val errorMessageResId: Int) : ViewState<Nothing>
+    class Failure(val localError: LocalError) : ViewState<Nothing>
 }
 
 val ViewState<*>.isLoading: Boolean
     get() = this is ViewState.Loading
 
-inline fun ViewState<*>.doOnError(func: (Int) -> Unit): ViewState<*> {
+inline fun ViewState<*>.doOnError(func: (LocalError) -> Unit): ViewState<*> {
     if (this is ViewState.Failure) {
-        func.invoke(errorMessageResId)
+        func.invoke(localError)
     }
     return this
 }

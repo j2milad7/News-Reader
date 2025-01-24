@@ -1,6 +1,5 @@
 package dev.miladanbari.newsreader.base
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
@@ -25,14 +24,14 @@ fun <T> ViewStateComponent(
     modifier: Modifier = Modifier,
     viewState: ViewState<T>,
     loadingComponent: @Composable (Modifier) -> Unit,
-    failureComponent: @Composable (Int, Modifier) -> Unit,
+    failureComponent: @Composable (LocalError, Modifier) -> Unit,
     content: @Composable (T) -> Unit
 ) {
 
     @Suppress("UNCHECKED_CAST")
     when (viewState) {
         is ViewState.Loading -> loadingComponent.invoke(modifier)
-        is ViewState.Failure -> failureComponent.invoke(viewState.errorMessageResId, modifier)
+        is ViewState.Failure -> failureComponent.invoke(viewState.localError, modifier)
         is ViewState.Success<T> -> content.invoke(viewState.data)
     }
 }
@@ -53,12 +52,14 @@ internal fun Loading(modifier: Modifier = Modifier) {
 
 @Composable
 internal fun Failure(
-    @StringRes messageResId: Int,
+    localError: LocalError,
     showSnackbar: (String) -> Unit,
     modifier: Modifier = Modifier,
     onRetry: (() -> Unit)? = null
 ) {
-    showSnackbar(stringResource(id = messageResId))
+    val message = localError.run { message ?: messageResId?.let { stringResource(id = it) } }
+    message?.let { showSnackbar(it) }
+
     onRetry?.let {
         Box(
             modifier = modifier.fillMaxSize(),
@@ -92,7 +93,7 @@ fun LoadingPreView() {
 @Composable
 fun FailurePreView() {
     Failure(
-        messageResId = R.string.error_general,
+        localError = LocalError(messageResId = R.string.error_general),
         onRetry = {},
         showSnackbar = {},
         modifier = Modifier

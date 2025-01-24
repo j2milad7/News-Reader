@@ -1,16 +1,24 @@
 package dev.miladanbari.newsreader.base
 
+import androidx.annotation.StringRes
 import dev.miladanbari.newsreader.R
-import retrofit2.HttpException
-import java.io.IOException
-import java.net.UnknownHostException
+import dev.miladanbari.newsreader.data.model.NetworkException
 
-fun Throwable.toErrorMessageResId(): Int {
+data class LocalError(@StringRes val messageResId: Int? = null, val message: String? = null)
+
+// TODO: Cover more error cases to provide a better user experience with a relevant error message
+fun Throwable.toLocalError(): LocalError {
     return when (this) {
-        is UnknownHostException,
-        is IOException,
-        is HttpException -> R.string.error_network
+        is NetworkException.Server -> {
+            LocalError(messageResId = R.string.error_network, message = this.message)
+        }
 
-        else -> R.string.error_general
+        is NetworkException.Disconnected -> LocalError(messageResId = R.string.error_connection)
+        is NetworkException.Unexpected,
+        is NetworkException.IO,
+        is NetworkException.Http,
+        -> LocalError(messageResId = R.string.error_network)
+
+        else -> LocalError(messageResId = R.string.error_general)
     }
 }

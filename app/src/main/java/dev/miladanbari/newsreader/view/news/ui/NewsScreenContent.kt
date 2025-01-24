@@ -37,7 +37,7 @@ import androidx.paging.compose.LazyPagingItems
 import dev.miladanbari.newsreader.R
 import dev.miladanbari.newsreader.base.Failure
 import dev.miladanbari.newsreader.base.Loading
-import dev.miladanbari.newsreader.base.toErrorMessageResId
+import dev.miladanbari.newsreader.base.toLocalError
 import dev.miladanbari.newsreader.view.news.model.ArticleItem
 import dev.miladanbari.newsreader.view.news.model.FilterAndSort
 import dev.miladanbari.newsreader.view.news.model.NewsSort
@@ -187,7 +187,7 @@ internal fun NewsLazyList(
                     val error = loadState.refresh as LoadState.Error
                     item {
                         Failure(
-                            error.error.toErrorMessageResId(),
+                            error.error.toLocalError(),
                             showSnackbar,
                             modifier = Modifier.fillParentMaxHeight(),
                             onRetry = ::retry,
@@ -207,7 +207,7 @@ internal fun NewsLazyList(
                     val error = loadState.append as LoadState.Error
                     item {
                         Failure(
-                            error.error.toErrorMessageResId(),
+                            error.error.toLocalError(),
                             showSnackbar,
                             modifier = Modifier.padding(vertical = MaterialTheme.space.xSmall),
                             onRetry = ::retry

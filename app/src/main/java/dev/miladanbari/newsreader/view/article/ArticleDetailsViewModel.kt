@@ -3,7 +3,7 @@ package dev.miladanbari.newsreader.view.article
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.miladanbari.newsreader.base.toErrorMessageResId
+import dev.miladanbari.newsreader.base.toLocalError
 import dev.miladanbari.newsreader.view.article.navigation.ArticleDetailsRoute
 import dev.miladanbari.newsreader.view.base.ViewState
 import dev.miladanbari.newsreader.view.news.model.ArticleItem
@@ -24,7 +24,7 @@ internal class ArticleDetailsViewModel @Inject constructor(
         return try {
             ViewState.Success(ArticleDetailsRoute.getArgFrom(savedStateHandle))
         } catch (e: Exception) {
-            ViewState.Failure(e.toErrorMessageResId())
+            ViewState.Failure(e.toLocalError())
         }
     }
 }
