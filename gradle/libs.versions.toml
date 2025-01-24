@@ -18,6 +18,7 @@ coil = "2.6.0"
 paging = "3.3.5"
 kotlinSerialization = "1.7.1"
 navigationCompose = "2.8.5"
+testCoreKtx = "1.6.1"
 
 [libraries]
 
@@ -63,6 +64,7 @@ androidx-paging-testing = { group = "androidx.paging", name = "paging-testing", 
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "testCoreKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

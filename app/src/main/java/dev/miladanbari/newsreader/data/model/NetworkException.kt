@@ -20,7 +20,7 @@ sealed class NetworkException(
     ) : NetworkException(cause = cause)
 
     class Server(
-        val code: ErrorCodeDto,
+        val code: ErrorCodeDto?,
         override val message: String,
         override val cause: Throwable,
     ) : NetworkException(

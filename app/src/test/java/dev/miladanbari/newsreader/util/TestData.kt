@@ -6,6 +6,8 @@ import dev.miladanbari.newsreader.data.model.SourceDto
 import dev.miladanbari.newsreader.data.model.StatusDto
 import dev.miladanbari.newsreader.domain.model.ArticleModel
 import dev.miladanbari.newsreader.domain.model.SourceModel
+import dev.miladanbari.newsreader.view.news.model.ArticleItem
+import dev.miladanbari.newsreader.view.news.model.SourceItem
 
 val testErrorJson = """
 {
@@ -67,3 +69,14 @@ val testArticleModelList = listOf(
     )
 )
 
+val testArticleItem = ArticleItem(
+    source = SourceItem(id = "test source id 1", name = "test source name 1"),
+    author = "test author 1",
+    title = "test title 1",
+    description = "test description 1",
+    url = "test url 1",
+    urlToImage = "test url to image 1",
+    formattedPublishedDateTime = "test published at 1",
+    content = "test content 1",
+    id = 0
+)

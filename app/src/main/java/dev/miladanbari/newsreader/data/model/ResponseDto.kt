@@ -19,7 +19,7 @@ sealed class ResponseDto<out T> {
         @SerializedName("status")
         override val status: StatusDto,
         @SerializedName("code")
-        val code: ErrorCodeDto,
+        val code: ErrorCodeDto?,
         @SerializedName("message")
         val message: String
     ) : ResponseDto<Nothing>()

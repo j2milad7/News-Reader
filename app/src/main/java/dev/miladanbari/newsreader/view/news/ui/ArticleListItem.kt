@@ -111,7 +111,7 @@ fun PreviewArticleListItem() {
                 description = "test description",
                 url = "test url",
                 urlToImage = "test url to image",
-                publishedAt = "test published at",
+                formattedPublishedDateTime = "test published at",
                 content = "test content"
             ),
             onItemClick = { }

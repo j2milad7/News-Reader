@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import dev.miladanbari.newsreader.view.article.navigation.articleDetailsScreen
 import dev.miladanbari.newsreader.view.news.navigation.NewsRoute
 import dev.miladanbari.newsreader.view.news.navigation.newsScreen
 
@@ -19,5 +20,6 @@ fun NewsReaderNavHost(
         modifier = modifier
     ) {
         newsScreen(navController)
+        articleDetailsScreen(navController)
     }
 }
